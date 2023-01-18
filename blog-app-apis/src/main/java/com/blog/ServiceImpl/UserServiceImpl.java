@@ -1,10 +1,13 @@
 package com.blog.ServiceImpl;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.blog.Entities.User;
+import com.blog.Exception.ResourceNotFoundException;
 import com.blog.Repository.UserRepo;
 import com.blog.Service.UserService;
 import com.blog.payLoad.UserDto;
@@ -15,33 +18,65 @@ public class UserServiceImpl implements UserService {
 	private UserRepo userRepo;
 
 	@Override
-	public UserDto createUser(UserDto user) {
-		
-		return null;
+
+	public UserDto createUser(UserDto userDto) {
+		User user = this.dtoToUser(userDto);
+		User saveuser = this.userRepo.save(user);
+		return this.userTodto(saveuser);
 	}
 
 	@Override
-	public UserDto updateUser(UserDto User, Integer userid) {
-		// TODO Auto-generated method stub
-		return null;
+	public UserDto updateUser(UserDto userDto, Integer userid) {
+		User user = this.userRepo.findById(userid)
+				.orElseThrow(() -> new ResourceNotFoundException("User", "id", userid));
+		user.setName(userDto.getName());
+		user.setEmail(userDto.getEmail());
+		user.setPassword(userDto.getPassword());
+		user.setAbout(userDto.getAbout());
+		User updateuser = this.userRepo.save(user);
+		UserDto userDto1 = this.userTodto(updateuser);
+		return userDto1;
 	}
 
 	@Override
 	public UserDto getuserbyId(Integer userid) {
-		// TODO Auto-generated method stub
-		return null;
+		User user = this.userRepo.findById(userid)
+				.orElseThrow(() -> new ResourceNotFoundException("User", "id", userid));
+		return this.userTodto(user);
 	}
 
 	@Override
 	public List<UserDto> getAllUsers() {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<User> users = this.userRepo.findAll();
+		List<UserDto> userDtos = users.stream().map(user -> this.userTodto(user)).collect(Collectors.toList());
+		return userDtos;
 	}
 
 	@Override
 	public void deleteUser(Integer userId) {
-		// TODO Auto-generated method stub
 
+		User user = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user", "id", userId));
+		userRepo.delete(user);
 	}
 
+	private User dtoToUser(UserDto userDto) {
+		User user = new User();
+		user.setId(userDto.getId());
+		user.setName(userDto.getName());
+		user.setEmail(userDto.getEmail());
+		user.setPassword(userDto.getPassword());
+		user.setAbout(userDto.getAbout());
+		return user;
+	}
+
+	public UserDto userTodto(User user) {
+		UserDto userDto = new UserDto();
+		userDto.setId(user.getId());
+		userDto.setName(user.getName());
+		userDto.setEmail(user.getEmail());
+		userDto.setPassword(user.getPassword());
+		userDto.setAbout(user.getAbout());
+		return userDto;
+	}
 }
