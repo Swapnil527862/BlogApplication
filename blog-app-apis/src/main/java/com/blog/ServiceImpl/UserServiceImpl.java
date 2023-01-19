@@ -20,7 +20,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private ModelMapper modelMapper;
 
-
 	@Override
 
 	public UserDto createUser(UserDto userDto) {
