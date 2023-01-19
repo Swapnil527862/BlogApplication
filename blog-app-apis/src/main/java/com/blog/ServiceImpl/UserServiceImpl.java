@@ -5,6 +5,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.blog.Entities.User;
@@ -12,6 +13,7 @@ import com.blog.Exception.ResourceNotFoundException;
 import com.blog.Repository.UserRepo;
 import com.blog.Service.UserService;
 import com.blog.payLoad.UserDto;
+import com.blog.utils.GlobalResources;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -19,13 +21,27 @@ public class UserServiceImpl implements UserService {
 	private UserRepo userRepo;
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	
+	private Logger logger = GlobalResources.getlLogger(UserServiceImpl.class);
 
 	@Override
 
 	public UserDto createUser(UserDto userDto) {
-		User user = this.dtoToUser(userDto);
-		User saveuser = this.userRepo.save(user);
-		return this.userTodto(saveuser);
+		
+		String methodname= "createUser";
+		logger.info(methodname+" Called method in service Implementation  ");
+		
+		if (userDto!=null ) {
+
+			User user = this.dtoToUser(userDto);
+			User saveuser = this.userRepo.save(user);
+			return this.userTodto(saveuser);
+			
+		}
+		logger.info(methodname+"Not save in database...");
+		return userDto;
+		
 	}
 
 	@Override

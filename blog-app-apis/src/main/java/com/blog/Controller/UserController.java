@@ -1,6 +1,8 @@
 package com.blog.Controller;
 
 import java.util.List;
+
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.blog.Service.UserService;
 import com.blog.payLoad.ApiResponce;
 import com.blog.payLoad.UserDto;
+import com.blog.utils.GlobalResources;
 
 import jakarta.validation.Valid;
 
@@ -25,9 +28,15 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	private Logger logger=GlobalResources.getlLogger(UserController.class);
+
 	// post
 	@PostMapping("/createUser")
 	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
+		
+		String methodname= "createUser";
+		logger.info(methodname+" Called method ");
+		
 		UserDto createUserDto = this.userService.createUser(userDto);
 		return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
 	}
