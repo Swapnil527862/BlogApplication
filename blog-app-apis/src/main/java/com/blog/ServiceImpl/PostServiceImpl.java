@@ -71,8 +71,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public
- PostResponce getAllPost(Integer pageNumber, Integer pageSize,String sortBy, String sortDir) {
+	public PostResponce getAllPost(Integer pageNumber, Integer pageSize,String sortBy, String sortDir) {
 		
 		Sort sort=null;
 		if (sortDir.equalsIgnoreCase("asc")) {
