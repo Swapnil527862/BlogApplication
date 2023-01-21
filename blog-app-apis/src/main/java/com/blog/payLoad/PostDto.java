@@ -1,6 +1,10 @@
 package com.blog.payLoad;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.blog.Entities.Comment;
 
 
 public class PostDto {	
@@ -10,6 +14,7 @@ public class PostDto {
 	private Date addDate;
 	  private UserDto user;
 	  private CategoryDto category;
+	  private Set<Comment> comments= new HashSet<>();
 	  
 	  
 	public PostDto(String title, String comment) {
