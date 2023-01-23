@@ -16,15 +16,15 @@ public class ResourceNotFoundException extends RuntimeException {
 	}
 	public ResourceNotFoundException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-		// TODO Auto-generated constructor stub
+		super("Not Found Resource", cause, enableSuppression, writableStackTrace);
+		
 	}
 	public ResourceNotFoundException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 	public ResourceNotFoundException(String message) {
-		super(message);
+		super("Not Found");
 		// TODO Auto-generated constructor stub
 	}
 	public ResourceNotFoundException(Throwable cause) {
