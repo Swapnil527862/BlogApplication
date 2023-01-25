@@ -20,10 +20,10 @@ import com.blog.payLoad.UserDto;
 import com.blog.utils.GlobalResources;
 
 import jakarta.validation.Valid;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @RestController
 @RequestMapping("/api/users")
+
 public class UserController {
 
 	@Autowired
